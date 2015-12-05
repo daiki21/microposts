@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_action :set_user, only: [:edit, :update]
   
   def show
    @user = User.find(params[:id])
@@ -19,11 +20,14 @@ class UsersController < ApplicationController
   end
   
   def edit
-    @user = current_user
+    if @user != current_user
+   # ログインしていないか別のユーザーでログインしている場合。
+  redirect_to root_path, alert: '不正なアクセス'
+else
+end
   end
   
   def update
-    @user = current_user
     @user.update_attributes(user_params)
     redirect_to user_url(current_user)
   end
@@ -35,4 +39,7 @@ class UsersController < ApplicationController
                                  :password_confirmation, :place, :bio)
   end
   
+  def set_user
+    @user = current_user
+  end
 end
