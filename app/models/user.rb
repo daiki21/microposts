@@ -6,8 +6,8 @@ class User < ActiveRecord::Base
                     format: { with: VALID_EMAIL_REGEX },
                     uniqueness: { case_sensitive: false }
                     
-    validates :place, presence: true
-    validates :bio, presence: true
+    validates :place, presence: true, on: :update
+    validates :bio, presence: true, on: :update
                     
     has_secure_password
 end
