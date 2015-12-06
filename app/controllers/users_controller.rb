@@ -1,8 +1,7 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:edit, :update]
+  before_action :set_user, only: [:show, :edit, :update]
   
   def show
-   @user = User.find(params[:id])
   end
   
   def new
@@ -21,15 +20,24 @@ class UsersController < ApplicationController
   
   def edit
     if @user != current_user
-   # ログインしていないか別のユーザーでログインしている場合。
-  redirect_to root_path, alert: '不正なアクセス'
-else
-end
+    # ログインしていないか別のユーザーでログインしている場合。
+    redirect_to root_path, alert: '不正なアクセス'
+    else
+    end
   end
   
   def update
-    @user.update_attributes(user_params)
-    redirect_to user_url(current_user)
+    if @user != current_user
+      # ログインしていないか別のユーザーでログインしている場合。
+      redirect_to root_path, alert: '不正なアクセスです'
+    else
+      if @user.update_attributes(user_params)
+        redirect_to user_path(@user)
+      else
+        # Validation error
+        render 'edit'
+      end
+    end
   end
   
   private
@@ -40,6 +48,6 @@ end
   end
   
   def set_user
-    @user = current_user
+    @user = User.find(params[:id])
   end
 end
