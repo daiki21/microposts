@@ -8,6 +8,6 @@ class User < ActiveRecord::Base
                     
     validates :place, presence: true, on: :update
     validates :bio, presence: true, on: :update
-                    
+    
     has_secure_password
 end
