@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update]
+  before_action :authorize!, only: [:edit, :update]
   
   def show
   end
@@ -49,5 +50,11 @@ class UsersController < ApplicationController
   
   def set_user
     @user = User.find(params[:id])
+  end
+  
+  def authorize!
+    if @user != current_user
+      redirect_to root_path, alert: "不正なアクセス！"
+    end
   end
 end
