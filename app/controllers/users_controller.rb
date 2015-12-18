@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   
   def show
     @microposts = @user.microposts.order(created_at: :desc)
-    @microposts = @user.microposts.paginate(page: params[:page], :per_page => 5)
+        .paginate(page: params[:page], :per_page => 5)
   end
   
   def new
