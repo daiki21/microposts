@@ -18,9 +18,13 @@
     <h3><%= @title %></h3>
     <% if @users.any? %>
       <ul class="users follow">
-        <%= render @users %>
+        <% @users.each do |u| %>
+          <li class="clearfix" %>
+            <%= link_to gravatar_for(u), user_path(u) %> <% u.name %>
+          </li>
+        <% end %>
       </ul>
-      <%= will_paginate %>
+      <%= will_paginate @users %>
     <% end %>
   </div>
 </div>
